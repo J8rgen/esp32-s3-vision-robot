@@ -1,76 +1,77 @@
-# ESP32-S3 Robot + Edge Impulse (masinnägemine)
+# ESP32-S3 Robot + Edge Impulse (Computer Vision)
 
-Robot kasutab ESP32-S3 mikrokontrollerit ja Edge Impulse mudelit mõõdutopsi tuvastamiseks kaamerapildist.
-Tööloogika: kaader -> inference -> liikumine; kui tops lähedal, peatub, teeb väikse “nudge”, haarab servo/gripperiga ja tõstab aktuaatoriga.
+This robot uses an ESP32-S3 microcontroller and an Edge Impulse model to detect a measuring cup from the camera image.
+Operating logic: frame capture → inference → movement; when the cup is close enough, the robot stops, performs a small “nudge”, grips the cup with a servo/gripper, and lifts it using a linear actuator.
 
-## Riistvara
-- ESP32-S3 (kaameraliidesega)
-- Kaamera (RGB565, QVGA 320x240)
-- DRV8833 (TT DC mootorid, 2 rattapaari)
-- TB6612FNG (lineaarne aktuaator)
-- 3x servo (2x MG90S, 1x MG996R)
-- Ultraheliandur(id)
-- Toide: aku 6V; mootorid eraldi haru MINI360 kaudu ~3V; servod eraldi 5V haru; ühine GND
+## Hardware
+- ESP32-S3 (with camera interface)
+- Camera (RGB565, QVGA 320×240)
+- DRV8833 (TT DC motors, 2 wheel pairs)
+- TB6612FNG (linear actuator)
+- 3× servos (2× MG90S, 1× MG996R)
+- Ultrasonic sensor(s)
+- Power: 6V battery; motors powered via a separate MINI360 DC-DC branch at ~3V; servos powered from a separate 5V rail; common GND
 
-### Kaamera ühendused (ESP32-S3)
-- XCLK -> GPIO15
-- SIOD/SDA -> GPIO4
-- SIOC/SCL -> GPIO5
-- D0 -> GPIO11
-- D1 -> GPIO9
-- D2 -> GPIO8
-- D3 -> GPIO10
-- D4 -> GPIO12
-- D5 -> GPIO18
-- D6 -> GPIO17
-- D7 -> GPIO16
-- VSYNC -> GPIO6
-- HREF -> GPIO7
-- PCLK -> GPIO13
-- RESET: ei kasutata
-- PWDN: ei kasutata
+### Camera connections (ESP32-S3)
+- XCLK → GPIO15
+- SIOD / SDA → GPIO4
+- SIOC / SCL → GPIO5
+- D0 → GPIO11
+- D1 → GPIO9
+- D2 → GPIO8
+- D3 → GPIO10
+- D4 → GPIO12
+- D5 → GPIO18
+- D6 → GPIO17
+- D7 → GPIO16
+- VSYNC → GPIO6
+- HREF → GPIO7
+- PCLK → GPIO13
+- RESET: not used
+- PWDN: not used
 
-### Mootorid (DRV8833)
-- RIGHT AIN1 -> GPIO45
-- RIGHT AIN2 -> GPIO46
-- LEFT  BIN1 -> GPIO47
-- LEFT  BIN2 -> GPIO48
+### Motors (DRV8833)
+- RIGHT AIN1 → GPIO45
+- RIGHT AIN2 → GPIO46
+- LEFT  BIN1 → GPIO47
+- LEFT  BIN2 → GPIO48
 
-Kiirust PWM-iga ei moduleerita (mootorid töötavad konstantsel kiirusel).
+Motor speed is not PWM-modulated; motors run at a constant speed.
 
-### Lineaarne aktuaator (TB6612FNG)
-- AIN1 -> GPIO40
-- AIN2 -> GPIO39
-VM: 6V akutoide (vastavalt ehitusele)
+### Linear actuator (TB6612FNG)
+- AIN1 → GPIO40
+- AIN2 → GPIO39  
+VM: 6V battery supply (depending on the build)
 
-### Servod
-- front MG90S -> GPIO42
-- back  MG90S -> GPIO43
-- MG996R (gripper) -> GPIO41
-Servode toide: eraldi 5V haru.
+### Servos
+- Front MG90S → GPIO42
+- Rear  MG90S → GPIO43
+- MG996R (gripper) → GPIO41  
+Servo power: separate 5V supply rail.
 
-### Ultraheliandur #1
-- TRIG -> GPIO1
-- ECHO -> GPIO2
-- VCC -> 5V
-- GND -> ühine
+### Ultrasonic sensor #1
+- TRIG → GPIO1
+- ECHO → GPIO2
+- VCC → 5V
+- GND → common ground
 
-### Ultraheliandur #2 (valikuline)
-- TRIG -> GPIO19 (USB D+)
-- ECHO -> GPIO20 (USB D-)
+### Ultrasonic sensor #2 (optional)
+- TRIG → GPIO19 (USB D+)
+- ECHO → GPIO20 (USB D−)
 
-**Märkus:** kui #2 on GPIO19/20 peal, ei saa samal ajal USB kaudu debuggida/jälgida Serialit. Testimiseks on see koodis välja kommenteeritud.
+**Note:** when sensor #2 is connected to GPIO19/20, USB debugging and Serial monitoring are not available. For testing, this sensor is commented out in the code.
 
 ### I2C
-- SDA -> GPIO14
-- SCL -> GPIO21
+- SDA → GPIO14
+- SCL → GPIO21
 
-## Kuidas ehitada ja laadida (Arduino IDE)
-1. Installi ESP32 board package (Espressif)
-2. Ava `src/robot_edge_impulse.ino`
-3. Veendu, et `edge-impulse/` kaust on projekti sees (või Edge Impulse library on Arduino Libraries all)
-4. Vali õige board (ESP32-S3) ja port
+## Build and upload (Arduino IDE)
+1. Install the ESP32 board package (Espressif)
+2. Open `src/robot_edge_impulse.ino`
+3. Ensure the `edge-impulse/` folder is included in the project (or that the Edge Impulse library is installed in Arduino Libraries)
+4. Select the correct board (ESP32-S3) and port
 5. Upload
+
 <img width="622" height="861" alt="image" src="https://github.com/user-attachments/assets/68ae742d-7973-4ffe-866a-2c86daf47928" />
 
 
