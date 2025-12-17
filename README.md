@@ -71,5 +71,6 @@ Servode toide: eraldi 5V haru.
 3. Veendu, et `edge-impulse/` kaust on projekti sees (või Edge Impulse library on Arduino Libraries all)
 4. Vali õige board (ESP32-S3) ja port
 5. Upload
-<img width="411" height="851" alt="image" src="https://github.com/user-attachments/assets/89a95056-76bb-4245-9e9d-0f35de10dc76" />
+<img width="622" height="861" alt="image" src="https://github.com/user-attachments/assets/68ae742d-7973-4ffe-866a-2c86daf47928" />
+
 
