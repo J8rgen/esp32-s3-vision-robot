@@ -1,0 +1,17 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Arduino / ESP32 build files
+build/
+*.bin
+*.elf
+*.map
+*.hex
+
+# PlatformIO
+.pio/
+.vscode/
+
+# Python cache (Edge Impulse tooling)
+__pycache__/
