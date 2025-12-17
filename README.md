@@ -78,7 +78,7 @@ Servo power: separate 5V supply rail.
 
 <img width="1078" height="452" alt="image" src="https://github.com/user-attachments/assets/920b394c-a99c-4bf9-b058-bd0fbb17928f" />
 
-<img width="690" height="675" alt="image" src="https://github.com/user-attachments/assets/600f563f-925b-445f-8831-180aca268bdd" />
+<img width="681" height="680" alt="image" src="https://github.com/user-attachments/assets/51e430bc-1d3a-4427-bdc9-1162c943b44b" />
 
 <img width="687" height="717" alt="image" src="https://github.com/user-attachments/assets/b646dfb3-033e-467e-b1f5-98e9139b499c" />
 
